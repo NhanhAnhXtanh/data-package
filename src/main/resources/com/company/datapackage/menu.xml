@@ -3,6 +3,10 @@
 
     <menu id="application" title="msg://com.company.datapackage/menu.application.title" opened="true">
         <item view="User.list" title="msg://com.company.datapackage.view.user/UserListView.title"/>
+        <item view="Organization.list"
+              title="msg://com.company.datapackage.view.organization/organizationListView.title"/>
+        <item view="Role.list" title="msg://com.company.datapackage.view.role/roleListView.title"/>
+        <item view="DataPackage.list" title="msg://com.company.datapackage.view.datapackage/dataPackageListView.title"/>
     </menu>
 
 </menu-config>

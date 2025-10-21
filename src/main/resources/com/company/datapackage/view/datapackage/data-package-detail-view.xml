@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://dataPackageDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="dataPackageDc"
+                  class="com.company.datapackage.entity.DataPackage">
+            <fetchPlan extends="_base">
+                <property name="organization" fetchPlan="_base">
+                    <property name="dataPackage" fetchPlan="_base"/>
+                </property>
+                <property name="role" fetchPlan="_base">
+                    <property name="dataPackage" fetchPlan="_base"/>
+                </property>
+                <property name="user" fetchPlan="_base">
+                    <property name="dataPackage" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="dataPackageDl"/>
+        </instance>
+        <collection id="organizationsDc" class="com.company.datapackage.entity.Organization" fetchPlan="_base">
+            <loader id="organizationsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Organization e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="rolesDc" class="com.company.datapackage.entity.Role" fetchPlan="_base">
+            <loader id="rolesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Role e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="usersDc" class="com.company.datapackage.entity.User" fetchPlan="_base">
+            <loader id="usersDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from User e]]>
+                </query>
+            </loader>
+        </collection>
+
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="dataPackageDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="nameField" property="name"/>
+            <select id="objectField" property="object"/>
+            <multiSelectComboBox id="organizationsField"
+                                 property="organization"
+                                 itemsContainer="organizationsDc"
+                                 visible="true"/>
+            <multiSelectComboBox id="rolesField"
+                                 property="role"
+                                 itemsContainer="rolesDc"
+                                 visible="false"/>
+            <multiSelectComboBox id="usersField"
+                                 property="user"
+                                 itemsContainer="usersDc"
+                                 visible="false"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

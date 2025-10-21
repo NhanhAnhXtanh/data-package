@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="datapackage">
+        <createTable tableName="DATA_PACKAGE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_DATA_PACKAGE"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJECT" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="datapackage">
+        <addColumn tableName="ORGANIZATION">
+            <column name="DATA_PACKAGE_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="3" author="datapackage">
+        <addColumn tableName="ROLE">
+            <column name="DATA_PACKAGE_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="4" author="datapackage">
+        <addColumn tableName="USER_">
+            <column name="DATA_PACKAGE_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="5" author="datapackage">
+        <createIndex indexName="IDX_ORGANIZATION_DATA_PACKAGE" tableName="ORGANIZATION">
+            <column name="DATA_PACKAGE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DATA_PACKAGE_ID" baseTableName="ORGANIZATION"
+                                 constraintName="FK_ORGANIZATION_ON_DATA_PACKAGE" referencedColumnNames="ID"
+                                 referencedTableName="DATA_PACKAGE"/>
+    </changeSet>
+    <changeSet id="6" author="datapackage">
+        <createIndex indexName="IDX_ROLE_DATA_PACKAGE" tableName="ROLE">
+            <column name="DATA_PACKAGE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DATA_PACKAGE_ID" baseTableName="ROLE"
+                                 constraintName="FK_ROLE_ON_DATA_PACKAGE" referencedColumnNames="ID"
+                                 referencedTableName="DATA_PACKAGE"/>
+    </changeSet>
+    <changeSet id="7" author="datapackage">
+        <createIndex indexName="IDX_USER__DATA_PACKAGE" tableName="USER_">
+            <column name="DATA_PACKAGE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DATA_PACKAGE_ID" baseTableName="USER_"
+                                 constraintName="FK_USER__ON_DATA_PACKAGE" referencedColumnNames="ID"
+                                 referencedTableName="DATA_PACKAGE"/>
+    </changeSet>
+</databaseChangeLog>
