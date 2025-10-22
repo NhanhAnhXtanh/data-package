@@ -1,17 +1,17 @@
 package com.company.datapackage.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "ROLE", indexes = {
-        @Index(name = "IDX_ROLE_DATA_PACKAGE", columnList = "DATA_PACKAGE_ID")
-})
+@Table(name = "ROLE")
 @Entity
 public class Role {
     @JmixGeneratedValue
@@ -28,16 +28,16 @@ public class Role {
     @NotNull
     private String name;
 
-    @JoinColumn(name = "DATA_PACKAGE_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private DataPackage dataPackage;
+    @Composition
+    @OneToMany(mappedBy = "role")
+    private List<DataPackRole> datapackrole;
 
-    public DataPackage getDataPackage() {
-        return dataPackage;
+    public List<DataPackRole> getDatapackrole() {
+        return datapackrole;
     }
 
-    public void setDataPackage(DataPackage dataPackage) {
-        this.dataPackage = dataPackage;
+    public void setDatapackrole(List<DataPackRole> datapackrole) {
+        this.datapackrole = datapackrole;
     }
 
     public String getName() {

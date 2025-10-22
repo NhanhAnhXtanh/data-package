@@ -7,19 +7,41 @@
         <collection id="dataPackagesDc"
                     class="com.company.datapackage.entity.DataPackage">
             <fetchPlan extends="_base">
-                <property name="organization" fetchPlan="_base">
-                    <property name="dataPackage" fetchPlan="_base"/>
+                <property name="datapackorg" fetchPlan="_base">
+                    <property name="organization" fetchPlan="_base"/>
                 </property>
-                <property name="role" fetchPlan="_base">
-                    <property name="dataPackage" fetchPlan="_base"/>
+                <property name="datapackrole" fetchPlan="_base">
+                    <property name="role" fetchPlan="_base"/>
                 </property>
-                <property name="user" fetchPlan="_base">
-                    <property name="dataPackage" fetchPlan="_base"/>
+                <property name="datapackuser" fetchPlan="_base">
+                    <property name="user" fetchPlan="_base"/>
                 </property>
+                <property name="displayValue"/>
             </fetchPlan>
             <loader id="dataPackagesDl" readOnly="true">
                 <query>
                     <![CDATA[select e from DataPackage e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="organizationsDc" class="com.company.datapackage.entity.Organization" fetchPlan="_base">
+            <loader id="organizationsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Organization e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="rolesDc" class="com.company.datapackage.entity.Role" fetchPlan="_base">
+            <loader id="rolesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Role e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="usersDc" class="com.company.datapackage.entity.User" fetchPlan="_base">
+            <loader id="usersDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from User e]]>
                 </query>
             </loader>
         </collection>
@@ -59,11 +81,7 @@
             <columns resizable="true">
                 <column property="name"/>
                 <column property="object"/>
-<!--                <column property="organization"/>-->
-<!--                <column property="role"/>-->
-<!--                <column property="user"/>-->
-                <column key="allRelationsNames" header="Giá trị"/>
-
+                <column property="displayValue"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">

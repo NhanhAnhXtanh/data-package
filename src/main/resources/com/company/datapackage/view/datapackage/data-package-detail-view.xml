@@ -6,17 +6,22 @@
         <instance id="dataPackageDc"
                   class="com.company.datapackage.entity.DataPackage">
             <fetchPlan extends="_base">
-                <property name="organization" fetchPlan="_base">
-                    <property name="dataPackage" fetchPlan="_base"/>
+                <property name="datapackorg" fetchPlan="_base">
+                    <property name="organization" fetchPlan="_base"/>
                 </property>
-                <property name="role" fetchPlan="_base">
-                    <property name="dataPackage" fetchPlan="_base"/>
+                <property name="datapackrole" fetchPlan="_base">
+                    <property name="role" fetchPlan="_base"/>
                 </property>
-                <property name="user" fetchPlan="_base">
-                    <property name="dataPackage" fetchPlan="_base"/>
+                <property name="datapackuser" fetchPlan="_base">
+                    <property name="user" fetchPlan="_base"/>
                 </property>
+                <property name="displayValue"/>
             </fetchPlan>
             <loader id="dataPackageDl"/>
+            <collection id="datapackorgDc" property="datapackorg"/>
+            <collection id="datapackroleDc" property="datapackrole"/>
+            <collection id="datapackuserDc" property="datapackuser"/>
+
         </instance>
         <collection id="organizationsDc" class="com.company.datapackage.entity.Organization" fetchPlan="_base">
             <loader id="organizationsDl" readOnly="true">
@@ -39,7 +44,6 @@
                 </query>
             </loader>
         </collection>
-
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -57,15 +61,12 @@
             <textField id="nameField" property="name"/>
             <select id="objectField" property="object"/>
             <multiSelectComboBox id="organizationsField"
-                                 property="organization"
                                  itemsContainer="organizationsDc"
-                                 visible="true"/>
+                                 visible="false"/>
             <multiSelectComboBox id="rolesField"
-                                 property="role"
                                  itemsContainer="rolesDc"
                                  visible="false"/>
             <multiSelectComboBox id="usersField"
-                                 property="user"
                                  itemsContainer="usersDc"
                                  visible="false"/>
         </formLayout>

@@ -4,6 +4,7 @@ import io.jmix.core.HasTimeZone;
 import io.jmix.core.annotation.Secret;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.SystemLevel;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
@@ -14,13 +15,13 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
 @Entity
 @Table(name = "USER_", indexes = {
-        @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true),
-        @Index(name = "IDX_USER__DATA_PACKAGE", columnList = "DATA_PACKAGE_ID")
+        @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true)
 })
 public class User implements JmixUserDetails, HasTimeZone {
 
@@ -57,19 +58,19 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "TIME_ZONE_ID")
     private String timeZoneId;
 
-    @JoinColumn(name = "DATA_PACKAGE_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private DataPackage dataPackage;
+    @Composition
+    @OneToMany(mappedBy = "user")
+    private List<DataPackUser> datapackuser;
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public DataPackage getDataPackage() {
-        return dataPackage;
+    public List<DataPackUser> getDatapackuser() {
+        return datapackuser;
     }
 
-    public void setDataPackage(DataPackage dataPackage) {
-        this.dataPackage = dataPackage;
+    public void setDatapackuser(List<DataPackUser> datapackuser) {
+        this.datapackuser = datapackuser;
     }
 
     public UUID getId() {

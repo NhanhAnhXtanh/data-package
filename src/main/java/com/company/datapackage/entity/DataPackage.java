@@ -2,8 +2,7 @@ package com.company.datapackage.entity;
 
 import com.company.datapackage.enums.Object;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
-import io.jmix.core.metamodel.annotation.InstanceName;
-import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -32,37 +31,99 @@ public class DataPackage {
     @NotNull
     private String object;
 
+    @Composition
     @OneToMany(mappedBy = "dataPackage")
-    private List<Organization> organization;
+    private List<DataPackOrg> datapackorg;
 
+    @Composition
     @OneToMany(mappedBy = "dataPackage")
-    private List<Role> role;
+    private List<DataPackRole> datapackrole;
 
+    @Composition
     @OneToMany(mappedBy = "dataPackage")
-    private List<User> user;
+    private List<DataPackUser> datapackuser;
 
-    public List<User> getUser() {
-        return user;
+    public List<DataPackUser> getDatapackuser() {
+        return datapackuser;
     }
 
-    public void setUser(List<User> user) {
-        this.user = user;
+    @JmixProperty
+    @Transient
+    private String displayValue;
+
+    public String getDisplayValue() {
+        StringBuilder builder = new StringBuilder();
+        Object enumObject = getObject();
+
+        if (enumObject == null) {
+            return "";
+        }
+
+        switch (enumObject) {
+            case UNIT:
+                if (datapackorg != null) {
+                    datapackorg.stream()
+                            .map(dataPackOrg -> dataPackOrg.getOrganization() != null ? dataPackOrg.getOrganization().getName() : "")
+                            .filter(name -> !name.isEmpty())
+                            .forEach(name -> {
+                                if (builder.length() > 0) builder.append(", ");
+                                builder.append(name);
+                            });
+                }
+                break;
+
+            case ROLE:
+                if (datapackrole != null) {
+                    datapackrole.stream()
+                            .map(dataPackRole -> dataPackRole.getRole() != null ? dataPackRole.getRole().getName() : "")
+                            .filter(name -> !name.isEmpty())
+                            .forEach(name -> {
+                                if (builder.length() > 0) builder.append(", ");
+                                builder.append(name);
+                            });
+                }
+                break;
+
+            case SPECIFIC_USER:
+                if (datapackuser != null) {
+                    datapackuser.stream()
+                            .map(dataPackUser -> dataPackUser.getUser() != null ? dataPackUser.getUser().getUsername() : "")
+                            .filter(name -> !name.isEmpty())
+                            .forEach(name -> {
+                                if (builder.length() > 0) builder.append(", ");
+                                builder.append(name);
+                            });
+                }
+                break;
+        }
+
+        displayValue = builder.toString();
+        return displayValue;
     }
 
-    public List<Role> getRole() {
-        return role;
+
+    public void setDisplayValue(String displayValue) {
+        this.displayValue = displayValue;
     }
 
-    public void setRole(List<Role> role) {
-        this.role = role;
+    public void setDatapackuser(List<DataPackUser> datapackuser) {
+        this.datapackuser = datapackuser;
     }
 
-    public List<Organization> getOrganization() {
-        return organization;
+    public List<DataPackRole> getDatapackrole() {
+        return datapackrole;
     }
 
-    public void setOrganization(List<Organization> organization) {
-        this.organization = organization;
+    public void setDatapackrole(List<DataPackRole> datapackrole) {
+        this.datapackrole = datapackrole;
+    }
+
+    public List<DataPackOrg> getDatapackorg() {
+        return datapackorg;
+    }
+
+    public void setDatapackorg(List<DataPackOrg> datapackorg) {
+        this.datapackorg = datapackorg;
     }
 
     public Object getObject() {
@@ -97,5 +158,6 @@ public class DataPackage {
     public void setId(UUID id) {
         this.id = id;
     }
+
 
 }
